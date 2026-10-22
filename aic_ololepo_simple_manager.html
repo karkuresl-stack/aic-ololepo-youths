@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIC Ololepo Youths — Manager</title>
+<style>
+:root{--green:#0E4B36;--gold:#C9A227;--cream:#FAF7EF;--ink:#20332a;--muted:#68756e;--line:#e6e1d5}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--green);color:#fff;padding:20px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:Georgia,serif;font-size:clamp(20px,3vw,28px)}.brand small{display:block;font:12px system-ui;color:#e9d99b;margin-top:4px}
+.wrap{max-width:1150px;margin:auto;padding:22px 16px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+nav{display:flex;gap:8px;flex-wrap:wrap}button,.btn{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 13px;cursor:pointer;color:var(--ink);font-weight:600}
+button.active,.primary{background:var(--green);color:white;border-color:var(--green)}.gold{color:var(--gold)}h1,h2,h3{font-family:Georgia,serif;margin:0 0 12px}h1{font-size:30px}p{color:var(--muted);line-height:1.5}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:13px;margin:18px 0}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:18px}.metric{font-size:27px;font-weight:750;margin-top:10px;color:var(--green)}.label{font-size:13px;color:var(--muted)}
+.panel{margin-top:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d8d9d2;border-radius:9px;background:#fff;font:inherit;color:var(--ink)}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:550px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:14px}th{font-size:12px;color:var(--muted);font-weight:700}.pill{display:inline-block;background:#e8f1eb;color:var(--green);padding:4px 9px;border-radius:99px;font-size:12px;font-weight:700}
+.notice{background:#fff7df;border:1px solid #ead58a;padding:12px 14px;border-radius:10px;color:#5f4c12;font-size:13px;line-height:1.5}
+.hidden{display:none!important}.muted{color:var(--muted)}footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+@media(max-width:520px){header{align-items:flex-start}.wrap{padding:16px 11px}.card,.panel{padding:14px}h1{font-size:26px}}
+</style></head>
+<body>
+<header><div class="brand">AIC Ololepo Youths <small>Projects & Contributions Manager</small></div><div><span class="gold">◆</span> Demo workspace</div></header>
+<main class="wrap">
+<div class="toolbar"><div><h1 id="pageTitle">Dashboard</h1><div class="muted">A simple overview of your group's records.</div></div>
+<nav id="nav"><button class="active" data-page="dashboard">Dashboard</button><button data-page="members">Members</button><button data-page="contributions">Contributions</button><button data-page="projects">Projects</button></nav></div>
+<div class="notice">Prototype only: records are stored in this browser for demonstration. This is <b>not production-secure</b> and has no real login or server-side permissions. Do not enter real or sensitive member information.</div>
+<section id="dashboard">
+<div class="cards">
+<div class="card"><div class="label">Registered members</div><div class="metric" id="memberCount">0</div></div>
+<div class="card"><div class="label">Contributions recorded</div><div class="metric" id="totalContrib">KES 0</div></div>
+<div class="card"><div class="label">Project budgets</div><div class="metric" id="totalBudget">KES 0</div></div>
+<div class="card"><div class="label">Expenses recorded</div><div class="metric" id="totalExpense">KES 0</div></div>
+</div>
+<div class="panel"><h2>Recent contributions</h2><div id="recent"></div></div>
+</section>
+<section id="members" class="hidden">
+<div class="panel"><div class="panel-head"><h2>Add a member</h2></div><form id="memberForm"><div class="formgrid">
+<div class="field"><label>Full name</label><input name="name" required placeholder="e.g. Jane Wanjiku"></div>
+<div class="field"><label>Phone</label><input name="phone" placeholder="07xx xxx xxx"></div>
+<div class="field"><label>Email</label><input name="email" type="email" placeholder="Optional"></div>
+<div class="field"><label>Join date</label><input name="joinDate" type="date"></div>
+<div class="field"><label>Ministry role</label><input name="role" placeholder="e.g. Treasurer"></div>
+</div><div class="actions"><button class="primary">Add member</button></div></form></div>
+<div class="panel"><div class="panel-head"><h2>Members</h2><input id="memberSearch" style="max-width:260px" placeholder="Search members…"></div><div class="tablewrap" id="membersTable"></div></div>
+</section>
+<section id="contributions" class="hidden">
+<div class="panel"><h2>Record a contribution</h2><form id="contribForm"><div class="formgrid">
+<div class="field"><label>Member</label><select name="member" id="contribMember" required></select></div>
+<div class="field"><label>Amount (KES)</label><input name="amount" type="number" min="1" step=".01" required placeholder="1000"></div>
+<div class="field"><label>Date</label><input name="date" type="date" required></div>
+<div class="field"><label>Method</label><select name="method"><option>Cash</option><option>M-Pesa</option><option>Bank</option></select></div>
+<div class="field"><label>Purpose / cycle</label><input name="purpose" placeholder="Monthly contribution"></div>
+<div class="field"><label>Reference</label><input name="reference" placeholder="Optional transaction code"></div>
+</div><div class="actions"><button class="primary">Save contribution</button></div></form></div>
+<div class="panel"><div class="panel-head"><h2>Contribution history</h2><button id="exportCsv">Export CSV</button></div><div class="tablewrap" id="contribTable"></div></div>
+</section>
+<section id="projects" class="hidden">
+<div class="panel"><h2>Create a project</h2><form id="projectForm"><div class="formgrid">
+<div class="field"><label>Project name</label><input name="name" required placeholder="e.g. Youth hall renovation"></div>
+<div class="field"><label>Budget (KES)</label><input name="budget" type="number" min="0" step=".01" required></div>
+<div class="field"><label>Status</label><select name="status"><option>Planned</option><option>In progress</option><option>Completed</option></select></div>
+</div><div class="actions"><button class="primary">Add project</button></div></form></div>
+<div class="panel"><h2>Projects & expenses</h2><div class="tablewrap" id="projectsTable"></div></div>
+<div class="panel"><h2>Record a project expense</h2><form id="expenseForm"><div class="formgrid">
+<div class="field"><label>Project</label><select name="project" id="expenseProject" required></select></div>
+<div class="field"><label>Amount (KES)</label><input name="amount" type="number" min=".01" step=".01" required></div>
+<div class="field"><label>Date</label><input name="date" type="date" required></div>
+<div class="field"><label>Description</label><input name="description" required placeholder="What was purchased or paid for?"></div>
+</div><div class="actions"><button class="primary">Save expense</button></div></form><div id="expenseList"></div></div>
+</section>
+<footer>AIC Ololepo Youths · Simple demo prototype</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let members=[], contributions=[], projects=[], expenses=[];
+const today=()=>new Date().toISOString().slice(0,10), money=n=>'KES '+Number(n||0).toLocaleString('en-KE',{minimumFractionDigits:2,maximumFractionDigits:2});
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function show(page){$$('main section').forEach(x=>x.classList.toggle('hidden',x.id!==page));$$('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('#pageTitle').textContent=page[0].toUpperCase()+page.slice(1);render()}
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)show(b.dataset.page)});
+function render(){
+$('#memberCount').textContent=members.length;
+$('#totalContrib').textContent=money(contributions.reduce((s,c)=>s+c.amount,0));
+$('#totalBudget').textContent=money(projects.reduce((s,p)=>s+p.budget,0));
+$('#totalExpense').textContent=money(expenses.reduce((s,e)=>s+e.amount,0));
+const recent=[...contributions].reverse().slice(0,5);
+$('#recent').innerHTML=recent.length?table(['Date','Member','Purpose','Amount'],recent.map(c=>[c.date,c.memberName,c.purpose||'—',money(c.amount)])):'<p>No contributions recorded yet.</p>';
+const search=($('#memberSearch')?.value||'').toLowerCase();
+const filtered=members.filter(m=>(m.name+' '+m.phone+' '+m.email).toLowerCase().includes(search));
+$('#membersTable').innerHTML=filtered.length?table(['Name','Phone','Email','Ministry role'],filtered.map(m=>[m.name,m.phone||'—',m.email||'—',m.role||'Member'])):'<p>No members yet. Add your first member above.</p>';
+$('#contribMember').innerHTML='<option value="">Choose member</option>'+members.map(m=>`<option value="${m.id}">${safe(m.name)}</option>`).join('');
+$('#contribTable').innerHTML=contributions.length?table(['Date','Member','Purpose','Method','Reference','Amount'],[...contributions].reverse().map(c=>[c.date,c.memberName,c.purpose||'—',c.method,c.reference||'—',money(c.amount)])):'<p>No contributions recorded yet.</p>';
+$('#expenseProject').innerHTML='<option value="">Choose project</option>'+projects.map(p=>`<option value="${p.id}">${safe(p.name)}</option>`).join('');
+$('#projectsTable').innerHTML=projects.length?table(['Project','Status','Budget','Expenses','Balance'],projects.map(p=>{let spent=expenses.filter(e=>e.projectId===p.id).reduce((s,e)=>s+e.amount,0);return [p.name,p.status,money(p.budget),money(spent),money(p.budget-spent)]})):'<p>No projects yet. Add a project above.</p>';
+$('#expenseList').innerHTML=expenses.length?'<h3>Recent expenses</h3>'+table(['Date','Project','Description','Amount'],[...expenses].reverse().map(e=>[e.date,e.projectName,e.description,money(e.amount)])):'<p>No expenses recorded yet.</p>';
+}
+function table(headers,rows){return '<table><thead><tr>'+headers.map(h=>'<th>'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(v=>'<td>'+safe(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+$('#memberForm').addEventListener('submit',e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));members.push({...d,id:Date.now()});e.target.reset();render()});
+$('#memberSearch').addEventListener('input',render);
+$('#contribForm').addEventListener('submit',e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target)),m=members.find(x=>x.id===Number(d.member));if(!m)return;contributions.push({id:Date.now(),memberName:m.name,amount:Math.round(Number(d.amount)*100)/100,date:d.date||today(),method:d.method,purpose:d.purpose,reference:d.reference});e.target.reset();render()});
+$('#projectForm').addEventListener('submit',e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));projects.push({...d,id:Date.now(),budget:Number(d.budget)});e.target.reset();render()});
+$('#expenseForm').addEventListener('submit',e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target)),p=projects.find(x=>x.id===Number(d.project));if(!p)return;expenses.push({id:Date.now(),projectId:p.id,projectName:p.name,amount:Number(d.amount),date:d.date||today(),description:d.description});e.target.reset();render()});
+$('#exportCsv').addEventListener('click',()=>{const rows=[['Date','Member','Amount KES','Method','Purpose','Reference'],...contributions.map(c=>[c.date,c.memberName,c.amount,c.method,c.purpose,c.reference])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='aic-ololepo-contributions.csv';a.click();URL.revokeObjectURL(a.href)});
+render();
+</script></body></html>
